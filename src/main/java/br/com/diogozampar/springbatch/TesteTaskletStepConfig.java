@@ -1,9 +1,7 @@
 package br.com.diogozampar.springbatch;
 
-import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.builder.StepBuilder;
@@ -15,22 +13,12 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 
 
-
-
 @Configuration
-public class BatchConfig {
+public class TesteTaskletStepConfig {
+    
 
     @Bean
-    public Job job(JobRepository jobRepository, Step step){
-        return new JobBuilder("job", jobRepository)
-        .start(step)
-        .build();
-    }
-
-
-
-    @Bean
-    public Step step(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager){
+    public Step testeTaskletStep(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager){
         return new StepBuilder("step", jobRepository)
             .tasklet((StepContribution stepContribution, ChunkContext chunkContext) -> {
             System.out.println("Teste tasklet Spring Batch v5");
@@ -38,4 +26,7 @@ public class BatchConfig {
         }, platformTransactionManager)
         .build();
     }
+
+
+
 }
